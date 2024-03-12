@@ -7,6 +7,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +16,12 @@ import com.example.ecommerceapi.Dto.UserDto;
 import com.example.ecommerceapi.model.User;
 import com.example.ecommerceapi.model.UserRole;
 import com.example.ecommerceapi.repository.UserRepository;
+import com.example.ecommerceapi.response.ResponseHandler;
+
+import io.micrometer.common.util.StringUtils;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl {
 
     @Autowired
     ModelMapper modelMapper;
@@ -27,42 +32,58 @@ public class UserServiceImpl implements UserService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @Override
-    public UserDto addUser(UserDto userDto) {
+    // @Override
+    // public UserDetails loadUserByUsername(String username) throws
+    // UsernameNotFoundException {
+    // return (UserDetails) userRepository.findByEmail(username).orElseThrow();
+    // }
 
-        // if (userRepository.existsByEmail(userDto.getEmail())) {
-        // return new ResponseEntity<>("Username is already exist!",
-        // HttpStatus.BAD_REQUEST);
-        // }
+    // @Override
+    // public ResponseEntity<?> addUser(UserDto userDto) {
+    // // Validate userDto fields
+    // if (StringUtils.isBlank(userDto.getFirstname()) ||
+    // StringUtils.isBlank(userDto.getLastname()) ||
+    // StringUtils.isBlank(userDto.getEmail()) ||
+    // StringUtils.isBlank(userDto.getPassword())) {
+    // return ResponseHandler.generateResponse("All fields are required",
+    // HttpStatus.BAD_REQUEST, null);
+    // }
 
-        // Set default values if needed
-        userDto.setUserId(UUID.randomUUID());
-        userDto.setRole(UserRole.USER);
-        userDto.setCreatedAt(new Date());
-        userDto.setUpdatedAt(new Date());
+    // // if user exists
+    // if (userRepository.existsByEmail(userDto.getEmail())) {
+    // return ResponseHandler.generateResponse("Email already in use",
+    // HttpStatus.BAD_REQUEST, null);
+    // }
 
-        // userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+    // // Set default values if needed
+    // userDto.setUserId(UUID.randomUUID());
+    // userDto.setRole(UserRole.USER);
+    // userDto.setCreatedAt(new Date());
+    // userDto.setUpdatedAt(new Date());
 
-        // Hash the password
-        String hashedPassword = passwordEncoder.encode(userDto.getPassword());
+    // // userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
-        System.out.println(hashedPassword + "------HASHED-------");
-        userDto.setPassword(hashedPassword);
+    // // Hash the password
+    // String hashedPassword = passwordEncoder.encode(userDto.getPassword());
 
-        // Map UserDto to User entity
-        User user = modelMapper.map(userDto, User.class);
+    // System.out.println(hashedPassword + "------HASHED-------");
+    // userDto.setPassword(hashedPassword);
 
-        // Additional logic if needed (e.g., validation, setting user properties)
+    // // Map UserDto to User entity
+    // User user = modelMapper.map(userDto, User.class);
 
-        // Save the user entity
-        User savedUser = userRepository.save(user);
+    // // Additional logic if needed (e.g., validation, setting user properties)
 
-        // Map the saved User entity back to UserDto excluding the password field
-        // modelMapper.typeMap(User.class, UserDto.class).addMappings(mapping ->
-        // mapping.skip(UserDto::setPassword));
-        UserDto savedUserDto = modelMapper.map(savedUser, UserDto.class);
+    // // Save the user entity
+    // User savedUser = userRepository.save(user);
 
-        return savedUserDto;
-    }
+    // // Map the saved User entity back to UserDto excluding the password field
+    // // modelMapper.typeMap(User.class, UserDto.class).addMappings(mapping ->
+    // // mapping.skip(UserDto::setPassword));
+    // UserDto savedUserDto = modelMapper.map(savedUser, UserDto.class);
+
+    // return ResponseHandler.generateResponse("User Successfully created",
+    // HttpStatus.BAD_REQUEST, savedUserDto);
+    // }
 
 }

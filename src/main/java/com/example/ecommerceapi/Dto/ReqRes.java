@@ -6,6 +6,7 @@ import com.example.ecommerceapi.model.Product;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import com.example.ecommerceapi.model.User;
 
 @Data
 // ignore fieldss users doesnt include
@@ -24,6 +25,6 @@ public class ReqRes {
     private String role;
     private String password;
     private List<Product> products;
-    private com.example.ecommerceapi.model.User User;
+    private User User;
 
 }
